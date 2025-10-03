@@ -10,8 +10,7 @@ const Footer = () => {
         </p>
       </div>
       <p>
-        © 2025. Produzido por
-        <a className='footer__link --underline' href='https://github.com/netuninho' target='_blank'> Manuela Silva</a>
+        © 2025. Produzido por <a className='footer__link --underline' href='https://github.com/netuninho' target='_blank'>Manuela Silva</a>
       </p>
     </footer>
   )
