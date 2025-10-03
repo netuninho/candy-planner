@@ -1,0 +1,21 @@
+@import '../main.scss';
+
+.button {
+  background-color: $wintergreen;
+  color: $candy-floss;
+  text-decoration: none;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: $font-size-md;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($wintergreen, 5%);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
