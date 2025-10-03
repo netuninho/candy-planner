@@ -1,0 +1,29 @@
+@import '../main.scss';
+
+.header {
+  background-color: $mint;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $chocolate;
+  font-family: $font-poppins;
+
+  &__logo {
+    font-size: $font-size-lg;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    white-space: nowrap;
+  }
+
+  &__list {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $chocolate;
+  }
+}

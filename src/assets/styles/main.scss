@@ -1,0 +1,30 @@
+@import './base/variables';
+@import './base/responsive';
+@import './base/reset';
+
+.container {
+  font-family: $font-poppins;
+  background-color: $candy-floss;
+  padding: 3rem;
+}
+
+.--underline {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 1px;
+    background-color: $chocolate;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
