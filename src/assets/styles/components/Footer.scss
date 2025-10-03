@@ -1,0 +1,39 @@
+@import '../main.scss';
+
+.footer {
+  background-color: $mint;
+  text-align: center;
+  padding: 2rem 0;
+  font-size: $font-size-sm;
+  color: $chocolate;
+  font-family: $font-poppins;
+
+  &__info {
+    line-height: 1.2rem;
+  }
+
+  &__link {
+    color: $chocolate;
+    text-decoration: none;
+
+    &:is(:link, :visited, :hover, :active) {
+      color: $chocolate;
+    }
+
+  }
+
+  &__icon {
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .3rem;
+  }
+}
