@@ -1,0 +1,30 @@
+@import '../main.scss';
+
+.container {
+  background: linear-gradient(135deg, $bubble-gum , $candy-floss);
+
+  .hero {
+    color: $chocolate;
+    text-align: center;
+    padding: 4rem 3rem;
+
+    &__title {
+      font-size: $font-size-xl;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    &__subtitle {
+      font-size: $font-size-md;
+      margin-bottom: 3rem;
+    }
+  }
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
