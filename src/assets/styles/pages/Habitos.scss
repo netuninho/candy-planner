@@ -1,0 +1,28 @@
+@import '../main.scss';
+
+.habits__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+
+  th,
+  td {
+    border: 1px solid #eee;
+    padding: 0.5rem;
+    text-align: center;
+  }
+
+  th {
+    background-color: #fafafa;
+    font-weight: 600;
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+}
