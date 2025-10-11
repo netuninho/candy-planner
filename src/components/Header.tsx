@@ -13,13 +13,13 @@ const Header = () => {
             <a className='header__link --underline' id='home-link' href='/'>Home</a>
           </li>
           <li className='header__list--item'>
-            <a className='header__link --underline' href='/planner' target='_blank'>Planner</a>
+            <a className='header__link --underline' href='/planner'>Planner</a>
           </li>
           <li className='header__list--item'>
-            <a className='header__link --underline' href='/habitos' target='_blank'>Hábitos</a>
+            <a className='header__link --underline' href='/habitos'>Hábitos</a>
           </li>
           <li className='header__list--item'>
-            <a className='header__link --underline' href='/sobre' target='_blank'>Sobre</a>
+            <a className='header__link --underline' href='/sobre'>Sobre</a>
           </li>
         </ul>
       </nav>
