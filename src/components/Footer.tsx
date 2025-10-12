@@ -1,11 +1,12 @@
 import '../assets/styles/components/Footer.scss';
+import HeartIcon from '../../public/icone-coracao.svg';
 
 const Footer = () => {
   return (
     <footer className='footer'>
       <div className='footer__info'>
         <p>
-          Code with heart. Design with purpose <img width='10' className='footer__icon' src='/src/assets/img/icone-coracao.svg' alt='Ícone de coração' />
+          Code with heart. Design with purpose <img width='10' className='footer__icon' src={HeartIcon} alt='Ícone de coração' />
         </p>
       </div>
       <p>
