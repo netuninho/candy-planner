@@ -11,10 +11,14 @@ interface HabitListProps {
   toggleHabit: (id: number) => void;
 }
 
-const HabitList: React.FC<HabitListProps> = ({ habits, toggleHabit }) => {
+function HabitList({ habits, toggleHabit }: HabitListProps) {
+  if (habits.length === 0) {
+    return <p style={{ textAlign: "center" }}>Nenhum hábito adicionado ainda 🌱</p>;
+  }
+
   return (
-    <ul className="habits">
-      {habits.map(habit => (
+    <ul className="habits__card">
+      {habits.map((habit) => (
         <li key={habit.id}>
           <input
             type="checkbox"
@@ -27,6 +31,6 @@ const HabitList: React.FC<HabitListProps> = ({ habits, toggleHabit }) => {
       ))}
     </ul>
   );
-};
+}
 
 export default HabitList;
