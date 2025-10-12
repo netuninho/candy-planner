@@ -1,5 +1,3 @@
-import React from "react";
-
 interface Habit {
   id: number;
   text: string;
