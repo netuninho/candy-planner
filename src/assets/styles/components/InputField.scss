@@ -1,0 +1,25 @@
+@import '../main.scss';
+
+.input-field {
+  input {
+    padding: .6rem 1rem;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-color: $candy-floss;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: $chocolate;
+    transition: 0.2s ease;
+
+    &::placeholder {
+      color: #b49b96;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #9ed5c0;
+      background-color: $candy-floss;
+      box-shadow: 0 0 0 3px rgba(158, 213, 192, 0.3);
+    }
+  }
+}

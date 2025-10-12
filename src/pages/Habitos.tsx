@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Button from '../components/Button';
 import '../assets/styles/pages/Habitos.scss'
+import InputField from '../components/InputField';
 
 interface HabitosProps {
   id: number;
@@ -64,6 +65,7 @@ const Habitos = () => {
   };
 
   const totalDays = habits.length * weekDays.length;
+
   const completedDays = habits.reduce(
     (acc, h) => acc + Object.values(h.days).filter(Boolean).length,
     0
@@ -83,112 +85,116 @@ const Habitos = () => {
   return (
     <>
       <Header />
-      <main className='habits container'>
-        <h1 className='habits__title'>Meus Hábitos</h1>
+      <div className='container'>
+        <main className='habits'>
+          <div className='habits__container'>
+            <h1 className='habits__title'>Meus Hábitos</h1>
 
-        <div className='habits__new'>
-          <input
-            type="text"
-            value={newHabit}
-            onChange={(e) => setNewHabit(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') addHabit();
-            }}
-            placeholder='Digite um novo hábito'
-            aria-label='Campo para adicionar um novo hábito'
-          />
+            <div className='habits__new'>
+              <InputField
+                type="text"
+                value={newHabit}
+                onChange={(e) => setNewHabit(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') addHabit();
+                }}
+                placeholder='Digite um novo hábito'
+                aria-label='Campo para adicionar um novo hábito'
+              />
 
-          <Button
-            text="Adicionar hábito"
-            onClick={addHabit}
-            ariaLabel="Adicionar novo hábito"
-          />
-        </div>
+              <Button
+                text="Adicionar hábito"
+                onClick={addHabit}
+                ariaLabel="Adicionar novo hábito"
+              />
+            </div>
+          </div>
 
-        <table className='habits__table'>
-          <thead>
-            <tr>
-              <th>
-                Hábito
-              </th>
-
-              {weekDays.map(day => (
-                <th key={day}>{day}</th>
-              ))}
-
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {habits.map(habit => (
-              <tr key={habit.id}>
-                <td>
-                  {editingId === habit.id ? (
-                    <input
-                      type='text'
-                      value={habit.name}
-                      onChange={(e) => editHabit(habit.id, e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') setEditingId(null);
-                      }}
-                      onBlur={() => setEditingId(null)}
-                      aria-label={`Editar hábito: ${habit.name}`}
-                      autoFocus
-                    />
-                  ) : (
-                    <span>{habit.name}</span>
-                  )}
-                </td>
+          <table className='habits__table'>
+            <thead>
+              <tr>
+                <th>
+                  Hábito
+                </th>
 
                 {weekDays.map(day => (
-                  <td key={day}>
-                    <input
-                      type="checkbox"
-                      checked={habit.days[day]}
-                      onChange={() => toggleDay(habit.id, day)}
-                      aria-label={`${habit.name} - ${day}`}
-                    />
-                  </td>
+                  <th key={day}>{day}</th>
                 ))}
 
-                <td>
-                  <Button
-                    text='✏️'
-                    onClick={() => setEditingId(habit.id)}
-                    ariaLabel={`Editar hábito $habit.name`}
-                    variant='icon'
-                  />
-                  <Button
-                    text="✖️"
-                    onClick={() => removeHabit(habit.id)}
-                    ariaLabel={`Remover hábito ${habit.name}`}
-                    variant="icon"
-                  />
-                </td>
+                <th>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </main >
+            </thead>
 
-      <section className="habits__progress container">
-        <h2>Seu progresso da semana 💪</h2>
-        <div className="habits__progress-bar">
-          <div
-            className="habits__fill"
-            style={{ width: `${progressPercentage}%` }}
-            aria-valuenow={progressPercentage}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            role="progressbar"
-          ></div>
-        </div>
-        <p className="habits__progress-text">
-          Você completou {completedDays} de {totalDays} tarefas ({progressPercentage}%)
-        </p>
-        <p className="habits__message">{progressMessage}</p>
-      </section>
+            <tbody>
+              {habits.map(habit => (
+                <tr key={habit.id}>
+                  <td>
+                    {editingId === habit.id ? (
+                      <InputField
+                        type='text'
+                        value={habit.name}
+                        onChange={(e) => editHabit(habit.id, e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') setEditingId(null);
+                        }}
+                        onBlur={() => setEditingId(null)}
+                        aria-label={`Editar hábito: ${habit.name}`}
+                        autoFocus
+                      />
+                    ) : (
+                      <span>{habit.name}</span>
+                    )}
+                  </td>
+
+                  {weekDays.map(day => (
+                    <td key={day}>
+                      <input
+                        type="checkbox"
+                        checked={habit.days[day]}
+                        onChange={() => toggleDay(habit.id, day)}
+                        aria-label={`${habit.name} - ${day}`}
+                      />
+                    </td>
+                  ))}
+
+                  <td>
+                    <Button
+                      text='✏️'
+                      onClick={() => setEditingId(habit.id)}
+                      ariaLabel={`Editar hábito $habit.name`}
+                      variant='icon'
+                    />
+                    <Button
+                      text="✖️"
+                      onClick={() => removeHabit(habit.id)}
+                      ariaLabel={`Remover hábito ${habit.name}`}
+                      variant="icon"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </main >
+
+        <section className="habits__progress">
+          <h2>Seu progresso da semana 💪</h2>
+          <div className="habits__progress-bar">
+            <div
+              className="habits__fill"
+              style={{ width: `${progressPercentage}%` }}
+              aria-valuenow={progressPercentage}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              role="progressbar"
+            ></div>
+          </div>
+          <p className="habits__progress-text">
+            Você completou {completedDays} de {totalDays} tarefas ({progressPercentage}%)
+          </p>
+          <p className="habits__message">{progressMessage}</p>
+        </section>
+      </div>
       <Footer />
     </>
   )
