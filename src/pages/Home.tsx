@@ -19,38 +19,7 @@ const Home = () => {
     setTasks(tasks.map(t => (t.id === id ? { ...t, done: !t.done } : t)));
   };
 
-  const [habits, setHabits] = useState<{ id: number; text: string; done: boolean }[]>([]);
-
-  const toggleHabit = (id: number) => {
-    setHabits(habits.map(h => (h.id === id ? { ...h, done: !h.done } : h)));
-  };
-
   const [mood, setMood] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('habits');
-      if (saved) {
-        const parsed = JSON.parse(saved) as {
-          id: number;
-          name: string;
-          days: Record<string, boolean>;
-        }[];
-
-        const adapted = parsed.map((habits) => {
-          const totalDays = Object.keys(habits.days).length
-          const completedDays = Object.values(habits.days).filter(Boolean).length;
-          const done = completedDays / totalDays >= 0.5;
-
-          return { id: habits.id, text: habits.name, done };
-        });
-
-        setHabits(adapted);
-      }
-    } catch (error) {
-      console.error("Erro ao carregar hábitos", error);
-    }
-  }, [])
 
   return (
     <>
@@ -70,7 +39,7 @@ const Home = () => {
           </Card>
 
           <Card title="Hábitos" color="#C6E6E3">
-            <HabitList habits={habits} toggleHabit={toggleHabit} />
+            <HabitList />
           </Card>
 
           <Card title="Humor do Dia" color="#FFD3DD">
