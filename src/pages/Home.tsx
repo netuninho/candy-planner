@@ -30,7 +30,11 @@ const Home = () => {
           <p className="hero__subtitle">
             Um planner digital para deixar sua rotina mais leve e divertida
           </p>
-          <Button text="Começar Agora" link="/" />
+          <Button
+            text="Começar Agora"
+            link="/"
+            variant='primary'
+          />
         </section>
 
         <section className="cards">

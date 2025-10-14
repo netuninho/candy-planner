@@ -19,6 +19,21 @@
     cursor: not-allowed;
   }
 
+  &.secondary {
+    background-color: #ffb6c1;
+    border: none;
+    border-radius: 12px;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: darken(#ffb6c1, 5%);
+    }
+  }
+
   &.icon {
     background: none;
     font-size: 1.2rem;

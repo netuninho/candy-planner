@@ -106,6 +106,7 @@ const Habitos = () => {
                 text="Adicionar hábito"
                 onClick={addHabit}
                 ariaLabel="Adicionar novo hábito"
+                variant='primary'
               />
             </div>
           </div>
