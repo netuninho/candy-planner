@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 interface Habit {
   id: number;
   text: string;
-  days: Record<string, boolean>;
+  days?: Record<string, boolean>;
   done: boolean;
 }
 
