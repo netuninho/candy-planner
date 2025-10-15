@@ -38,7 +38,6 @@ const MoodSelector: React.FC<MoodSelectorProps> = ({ mood, setMood }) => {
             type="button"
             onClick={() => {
               setMood(icon);
-              saveMood();
             }}
             aria-label={label}
             className={mood === icon ? "selected" : ""}
