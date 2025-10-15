@@ -62,7 +62,7 @@ function Planner() {
     setEditedText("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>, id?: number) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, id?: number) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (editingId !== null && id !== undefined) {
