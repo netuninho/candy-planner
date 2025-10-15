@@ -1,77 +1,61 @@
-import React, { useEffect } from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import Button from '../components/Button';
-import '../assets/styles/pages/Habitos.scss'
-import InputField from '../components/InputField';
+import React from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Button from "../components/Button";
+import InputField from "../components/InputField";
+import "../assets/styles/pages/Habitos.scss";
+import { useNotesManager } from "../hooks/useNotesManager";
 
-interface HabitosProps {
+const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+interface Habit {
   id: number;
-  name: string;
-  days: { [key: string]: boolean }
-};
-
-const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  text: string;
+  days: { [key: string]: boolean };
+}
 
 const Habitos = () => {
-  const [habits, setHabits] = React.useState<HabitosProps[]>([]);
-  const [newHabit, setNewHabit] = React.useState('');
-  const [editingId, setEditingId] = React.useState<number | null>(null);
+  const {
+    notes: habits,
+    newText: newHabit,
+    setNewText: setNewHabit,
+    editingId,
+    editedText,
+    setEditedText,
+    addNote,
+    removeNote,
+    startEditing,
+    saveEdit,
+    handleKeyDown,
+    updateNote,
+  } = useNotesManager("habits");
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('habits')
-      if (saved) {
-        setHabits(JSON.parse(saved))
-      }
-    } catch (error) {
-      console.error('Erro ao carregar hábitos', error)
-    }
-  }, [])
+  const getHabitWithDays = (habit: any): Habit => ({
+    ...habit,
+    days: habit.days || Object.fromEntries(weekDays.map((d) => [d, false])),
+  });
 
-  useEffect(() => {
-    try {
-      if (habits.length > 0) {
-        localStorage.setItem('habits', JSON.stringify(habits))
-      } else {
-        localStorage.removeItem('habits')
-      }
-    } catch (error) {
-      console.error('Erro ao salvar hábitos', error)
-    }
-  }, [habits])
-
-  const addHabit = () => {
-    if (newHabit.trim() === '') return;
-    const habit: HabitosProps = {
-      id: Date.now(),
-      name: newHabit,
-      days: Object.fromEntries(weekDays.map(day => [day, false]))
-    };
-    setHabits([...habits, habit]);
-    setNewHabit('');
-  };
-
-  const removeHabit = (id: number) => {
-    setHabits(habits.filter(habit => habit.id !== id));
-  };
-
-  const editHabit = (id: number, newName: string) => {
-    setHabits(habits.map(habit => (habit.id === id ? { ...habit, name: newName } : habit)));
-  };
+  const fullHabits = habits.map(getHabitWithDays);
 
   const toggleDay = (id: number, day: string) => {
-    setHabits(habits.map(habit => habit.id === id ? { ...habit, days: { ...habit.days, [day]: !habit.days[day] } } : habit));
+    const habit = fullHabits.find((h) => h.id === id);
+    if (!habit) return;
+
+    const updatedDays = {
+      ...habit.days,
+      [day]: !habit.days[day],
+    };
+
+    updateNote(id, { ...habit, days: updatedDays });
   };
 
-  const totalDays = habits.length * weekDays.length;
-
-  const completedDays = habits.reduce(
+  const totalDays = fullHabits.length * weekDays.length;
+  const completedDays = fullHabits.reduce(
     (acc, h) => acc + Object.values(h.days).filter(Boolean).length,
     0
   );
-
-  const progressPercentage = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
+  const progressPercentage =
+    totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
   const progressMessage =
     progressPercentage === 0
@@ -85,98 +69,107 @@ const Habitos = () => {
   return (
     <>
       <Header />
-      <div className='container'>
-        <main className='habits'>
-          <div className='habits__container'>
-            <h1 className='habits__title'>Meus Hábitos</h1>
+      <div className="container">
+        <main className="habits">
+          <div className="habits__container">
+            <h1 className="habits__title">Meus Hábitos</h1>
 
-            <div className='habits__new'>
+            <div className="habits__new">
               <InputField
                 type="text"
                 value={newHabit}
                 onChange={(e) => setNewHabit(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') addHabit();
-                }}
-                placeholder='Digite um novo hábito'
-                aria-label='Campo para adicionar um novo hábito'
+                onKeyDown={(e) => handleKeyDown(e)}
+                placeholder="Digite um novo hábito"
+                aria-label="Campo para adicionar um novo hábito"
               />
-
               <Button
                 text="Adicionar hábito"
-                onClick={addHabit}
+                onClick={addNote}
                 ariaLabel="Adicionar novo hábito"
-                variant='primary'
+                variant="primary"
               />
             </div>
           </div>
 
-          <table className='habits__table'>
+          <table className="habits__table">
             <thead>
               <tr>
-                <th>
-                  Hábito
-                </th>
-
-                {weekDays.map(day => (
+                <th>Hábito</th>
+                {weekDays.map((day) => (
                   <th key={day}>{day}</th>
                 ))}
-
                 <th>Ações</th>
               </tr>
             </thead>
 
             <tbody>
-              {habits.map(habit => (
+              {fullHabits.map((habit) => (
                 <tr key={habit.id}>
                   <td>
                     {editingId === habit.id ? (
                       <InputField
-                        type='text'
-                        value={habit.name}
-                        onChange={(e) => editHabit(habit.id, e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') setEditingId(null);
-                        }}
-                        onBlur={() => setEditingId(null)}
-                        aria-label={`Editar hábito: ${habit.name}`}
+                        type="text"
+                        value={editedText}
+                        onChange={(e) => setEditedText(e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e, habit.id)}
+                        aria-label={`Editar hábito: ${habit.text}`}
                         autoFocus
                       />
                     ) : (
-                      <span>{habit.name}</span>
+                      <span>{habit.text}</span>
                     )}
                   </td>
 
-                  {weekDays.map(day => (
+                  {weekDays.map((day) => (
                     <td key={day}>
                       <input
                         type="checkbox"
                         checked={habit.days[day]}
                         onChange={() => toggleDay(habit.id, day)}
-                        aria-label={`${habit.name} - ${day}`}
+                        aria-label={`${habit.text} - ${day}`}
                       />
                     </td>
                   ))}
 
                   <td>
-                    <Button
-                      text='✏️'
-                      onClick={() => setEditingId(habit.id)}
-                      ariaLabel={`Editar hábito $habit.name`}
-                      variant='icon'
-                    />
-                    <Button
-                      text="✖️"
-                      onClick={() => removeHabit(habit.id)}
-                      ariaLabel={`Remover hábito ${habit.name}`}
-                      variant="icon"
-                    />
+                    {editingId === habit.id ? (
+                      <>
+                        <Button
+                          text="💾"
+                          onClick={() => saveEdit(habit.id)}
+                          ariaLabel={`Salvar edição de ${habit.text}`}
+                          variant="icon"
+                        />
+                        <Button
+                          text="✖️"
+                          onClick={() => setEditedText("")}
+                          ariaLabel={`Cancelar edição de ${habit.text}`}
+                          variant="icon"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          text="✏️"
+                          onClick={() => startEditing(habit.id, habit.text)}
+                          ariaLabel={`Editar hábito ${habit.text}`}
+                          variant="icon"
+                        />
+                        <Button
+                          text="✖️"
+                          onClick={() => removeNote(habit.id)}
+                          ariaLabel={`Remover hábito ${habit.text}`}
+                          variant="icon"
+                        />
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </main >
+        </main>
 
         <section className="habits__progress">
           <h2>Seu progresso da semana 💪</h2>
@@ -191,14 +184,15 @@ const Habitos = () => {
             ></div>
           </div>
           <p className="habits__progress-text">
-            Você completou {completedDays} de {totalDays} tarefas ({progressPercentage}%)
+            Você completou {completedDays} de {totalDays} tarefas (
+            {progressPercentage}%)
           </p>
           <p className="habits__message">{progressMessage}</p>
         </section>
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Habitos
+export default Habitos;
