@@ -11,15 +11,15 @@
   color: $chocolate;
 
   &__container {
-    background: #fffafc;
+    background: $candy-floss;
     border-radius: 20px;
     padding: 2rem;
     width: 100%;
     max-width: 600px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     background-image: repeating-linear-gradient(to bottom,
-        #fffafc,
-        #fffafc 24px,
+        $candy-floss,
+        $candy-floss 24px,
         #f8e4ec 25px);
   }
 
@@ -42,7 +42,7 @@
       border: none;
       border-radius: 10px;
       padding: 1rem;
-      background-color: #ffeef5;
+      background-color: $candy-floss;
       font-size: 1rem;
       box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
       transition: 0.3s;
