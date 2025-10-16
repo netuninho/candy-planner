@@ -1,7 +1,7 @@
 @use '../main.scss' as *;
 
 .planner {
-  min-height: 100vh;
+  min-height: 70vh;
   background: linear-gradient(135deg, $bubble-gum , $candy-floss);
   display: flex;
   flex-direction: column;
