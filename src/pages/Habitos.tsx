@@ -10,7 +10,7 @@ const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 interface Habit {
   id: number;
   text: string;
-  days: { [key: string]: boolean };
+  days: Record<string, boolean>;
 }
 
 const Habitos = () => {
@@ -27,9 +27,9 @@ const Habitos = () => {
     saveEdit,
     handleKeyDown,
     updateNote,
-  } = useNotesManager("habits");
+  } = useNotesManager<Habit>("habits");
 
-  const getHabitWithDays = (habit: any): Habit => ({
+  const getHabitWithDays = (habit: Habit): Habit => ({
     ...habit,
     days: habit.days || Object.fromEntries(weekDays.map((d) => [d, false])),
   });
@@ -45,7 +45,7 @@ const Habitos = () => {
       [day]: !habit.days[day],
     };
 
-    updateNote(id, { ...habit, days: updatedDays });
+    updateNote(id, { days: updatedDays });
   };
 
   const totalDays = fullHabits.length * weekDays.length;
@@ -136,7 +136,7 @@ const Habitos = () => {
                       <>
                         <Button
                           text="💾"
-                          onClick={() => saveEdit(habit.id)}
+                          onClick={() => saveEdit()}
                           ariaLabel={`Salvar edição de ${habit.text}`}
                           variant="icon"
                         />

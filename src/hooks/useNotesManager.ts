@@ -1,46 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface Note {
-  id: number;
-  text: string;
-}
+export function useNotesManager<T extends { id: number; text: string }>(storageKey: string) {
+  const [notes, setNotes] = useState<T[]>(() => {
+    const saved = localStorage.getItem(storageKey);
+    return saved ? JSON.parse(saved) : [];
+  });
 
-export function useNotesManager(storageKey: string) {
-  const [notes, setNotes] = useState<Note[]>([]);
   const [newText, setNewText] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedText, setEditedText] = useState("");
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) setNotes(JSON.parse(saved));
-    } catch (error) {
-      console.error(`Erro ao carregar dados (${storageKey})`, error);
-    }
-  }, [storageKey]);
-
-  useEffect(() => {
-    try {
-      if (notes.length > 0) {
-        localStorage.setItem(storageKey, JSON.stringify(notes));
-      } else {
-        localStorage.removeItem(storageKey);
-      }
-    } catch (error) {
-      console.error(`Erro ao salvar dados (${storageKey})`, error);
-    }
-  }, [notes, storageKey]);
-
   const addNote = () => {
     if (!newText.trim()) return;
-    const newItem = { id: Date.now(), text: newText.trim() };
-    setNotes([...notes, newItem]);
+    const newNote = { id: Date.now(), text: newText } as T;
+    setNotes((prev) => [...prev, newNote]);
     setNewText("");
   };
 
   const removeNote = (id: number) => {
-    setNotes(notes.filter(note => note.id !== id));
+    setNotes((prev) => prev.filter((n) => n.id !== id));
   };
 
   const startEditing = (id: number, text: string) => {
@@ -48,36 +26,40 @@ export function useNotesManager(storageKey: string) {
     setEditedText(text);
   };
 
-  const saveEdit = (id: number) => {
-    if (!editedText.trim()) return;
-    setNotes(notes.map(note =>
-      note.id === id ? { ...note, text: editedText } : note
-    ));
+  const saveEdit = () => {
+    if (editingId === null) return;
+    setNotes((prev) =>
+      prev.map((n) =>
+        n.id === editingId ? { ...n, text: editedText } : n
+      )
+    );
     setEditingId(null);
     setEditedText("");
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
-    id?: number
-  ) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      if (editingId !== null && id !== undefined) {
-        saveEdit(id);
-      } else {
-        addNote();
-      }
-    }
-  };
-
-  const updateNote = (id: number, updatedData: Partial<{ text: string }>) => {
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updatedData } : n))
+  const updateNote = (id: number, updatedFields: Partial<T>) => {
+    setNotes((prev) =>
+      prev.map((n) =>
+        n.id === id ? { ...n, ...updatedFields } : n
+      )
     );
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>, id?: number) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (id !== undefined) saveEdit();
+      else addNote();
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(notes));
+  }, [notes, storageKey]);
+
   return {
     notes,
+    setNotes,
     newText,
     setNewText,
     editingId,

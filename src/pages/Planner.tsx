@@ -54,7 +54,7 @@ function Planner() {
                         text="💾"
                         variant="icon"
                         ariaLabel="Salvar anotação"
-                        onClick={() => saveEdit(plan.id)}
+                        onClick={() => saveEdit()}
                       />
                       <Button
                         text="✖️"
