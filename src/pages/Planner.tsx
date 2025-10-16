@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
@@ -5,7 +6,12 @@ import InputField from "../components/InputField";
 import { useNotesManager } from "../hooks/useNotesManager";
 import "../assets/styles/pages/Planner.scss";
 
-function Planner() {
+interface Plan {
+  id: number;
+  text: string;
+}
+
+const Planner = () => {
   const {
     notes: plans,
     newText: newPlan,
@@ -19,6 +25,15 @@ function Planner() {
     saveEdit,
     handleKeyDown,
   } = useNotesManager("plannerPlans");
+
+  const [completedPlans, setCompletedPlans] = useState<Record<number, boolean>>({});
+
+  const toggleDone = (id: number) => {
+    setCompletedPlans((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   return (
     <>
@@ -39,8 +54,13 @@ function Planner() {
 
           <div className="planner__notes">
             {plans.length === 0 && <p>Nenhuma anotação ainda 💭</p>}
+
             {plans.map((plan) => (
-              <div key={plan.id} className="planner__note">
+              <div
+                key={plan.id}
+                className={`planner__note ${completedPlans[plan.id] ? "planner__note--done" : ""
+                  }`}
+              >
                 {editingId === plan.id ? (
                   <>
                     <InputField
@@ -68,6 +88,16 @@ function Planner() {
                   <>
                     <p>{plan.text}</p>
                     <div>
+                      <Button
+                        text={completedPlans[plan.id] ? "↩️" : "✅"}
+                        variant="icon"
+                        ariaLabel={
+                          completedPlans[plan.id]
+                            ? "Desmarcar como concluída"
+                            : "Marcar como concluída"
+                        }
+                        onClick={() => toggleDone(plan.id)}
+                      />
                       <Button
                         text="✏️"
                         variant="icon"
