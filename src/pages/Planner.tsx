@@ -6,11 +6,6 @@ import InputField from "../components/InputField";
 import { useNotesManager } from "../hooks/useNotesManager";
 import "../assets/styles/pages/Planner.scss";
 
-interface Plan {
-  id: number;
-  text: string;
-}
-
 const Planner = () => {
   const {
     notes: plans,
