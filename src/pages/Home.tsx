@@ -9,16 +9,6 @@ import MoodSelector from "../components/MoodSelector";
 import '../assets/styles/pages/Home.scss'
 
 const Home = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "Estudar React", done: false },
-    { id: 2, text: "Beber água", done: false },
-    { id: 3, text: "Fazer caminhada", done: false },
-  ]);
-
-  const toggleTask = (id: number) => {
-    setTasks(tasks.map(t => (t.id === id ? { ...t, done: !t.done } : t)));
-  };
-
   const [mood, setMood] = useState<string | null>(null);
 
   return (
@@ -32,14 +22,14 @@ const Home = () => {
           </p>
           <Button
             text="Começar Agora"
-            link="/"
+            link="/planner"
             variant='primary'
           />
         </section>
 
         <section className="cards">
           <Card title="Planner" color="#FFD3DD">
-            <TaskList tasks={tasks} toggleTask={toggleTask} />
+            <TaskList />
           </Card>
 
           <Card title="Hábitos" color="#C6E6E3">
