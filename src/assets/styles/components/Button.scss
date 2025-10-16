@@ -20,7 +20,7 @@
   }
 
   &.secondary {
-    background-color: #ffb6c1;
+    background-color: $bubble-gum;
     border: none;
     border-radius: 12px;
     padding: 0.7rem 1.2rem;
@@ -30,7 +30,7 @@
     transition: 0.2s;
 
     &:hover {
-      background-color: darken(#ffb6c1, 5%);
+      background-color: darken($cotton-candy, 5%);
     }
   }
 
