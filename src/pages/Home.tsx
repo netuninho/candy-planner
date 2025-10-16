@@ -38,7 +38,7 @@ const Home = () => {
         </section>
 
         <section className="cards">
-          <Card title="Tarefas do Dia" color="#FFD3DD">
+          <Card title="Planner" color="#FFD3DD">
             <TaskList tasks={tasks} toggleTask={toggleTask} />
           </Card>
 

@@ -1,4 +1,5 @@
-import React from "react";
+import { useNotesManager } from "../hooks/useNotesManager";
+import { useState } from "react";
 
 interface Task {
   id: number;
@@ -6,15 +7,25 @@ interface Task {
   done: boolean;
 }
 
-interface TaskListProps {
-  tasks: Task[];
-  toggleTask: (id: number) => void;
-}
+export default function TaskList() {
+  const { notes } = useNotesManager("plannerPlans");
+  const [tasks, setTasks] = useState<Task[]>(
+    notes.map((note) => ({ ...note, done: false }))
+  );
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, toggleTask }) => {
+  const toggleTask = (id: number) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
   return (
     <ul className="tasks">
-      {tasks.map(task => (
+      {tasks.length === 0 && <p>Nenhuma tarefa ainda 💭</p>}
+
+      {tasks.map((task) => (
         <li key={task.id}>
           <input
             type="checkbox"
@@ -27,6 +38,4 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, toggleTask }) => {
       ))}
     </ul>
   );
-};
-
-export default TaskList;
+}
