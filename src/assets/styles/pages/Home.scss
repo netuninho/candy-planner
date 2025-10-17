@@ -44,3 +44,9 @@
     }
   }
 }
+
+.planner__note--done label {
+  text-decoration: line-through;
+  color: #a67b7b;
+  opacity: 0.7;
+}

@@ -53,7 +53,7 @@ function HabitList() {
             type="checkbox"
             id={`habit-${habit.id}`}
             checked={habit.done}
-            disabled
+            readOnly
           />
           <label htmlFor={`habit-${habit.id}`}>{habit.text}</label>
         </li>

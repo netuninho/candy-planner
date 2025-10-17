@@ -1,5 +1,5 @@
 import { useNotesManager } from "../hooks/useNotesManager";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Task {
   id: number;
@@ -8,30 +8,31 @@ interface Task {
 }
 
 export default function TaskList() {
-  const { notes } = useNotesManager("plannerPlans");
-  const [tasks, setTasks] = useState<Task[]>(
-    notes.map((note) => ({ ...note, done: false }))
-  );
+  const { notes } = useNotesManager<Task>("plannerPlans");
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  const toggleTask = (id: number) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id ? { ...task, done: !task.done } : task
-      )
-    );
-  };
+  useEffect(() => {
+    const saved = localStorage.getItem("plannerPlans");
+    if (saved) {
+      const parsed: Task[] = JSON.parse(saved);
+      setTasks(parsed);
+    }
+  }, [notes]);
 
   return (
     <ul className="tasks">
       {tasks.length === 0 && <p>Nenhuma tarefa ainda 💭</p>}
 
       {tasks.map((task) => (
-        <li key={task.id}>
+        <li
+          key={task.id}
+          className={task.done ? "planner__note--done" : ""}
+        >
           <input
             type="checkbox"
             id={`task-${task.id}`}
-            checked={task.done}
-            onChange={() => toggleTask(task.id)}
+            checked={!!task.done}
+            readOnly
           />
           <label htmlFor={`task-${task.id}`}>{task.text}</label>
         </li>

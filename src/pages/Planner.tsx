@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
@@ -6,28 +6,45 @@ import InputField from "../components/InputField";
 import { useNotesManager } from "../hooks/useNotesManager";
 import "../assets/styles/pages/Planner.scss";
 
+interface Plan {
+  id: number;
+  text: string;
+  done: boolean;
+}
+
 const Planner = () => {
   const {
-    notes: plans,
+    notes: basePlans,
     newText: newPlan,
     setNewText: setNewPlan,
     editingId,
     editedText,
     setEditedText,
-    addNote: addPlan,
-    removeNote: removePlan,
+    addNote,
+    removeNote,
     startEditing,
     saveEdit,
     handleKeyDown,
-  } = useNotesManager("plannerPlans");
+  } = useNotesManager<Plan>("plannerPlans");
 
-  const [completedPlans, setCompletedPlans] = useState<Record<number, boolean>>({});
+  const [plans, setPlans] = useState<Plan[]>([]);
+
+  useEffect(() => {
+    const withDone = basePlans.map((p) => ({
+      ...p,
+      done: p.done ?? false,
+    }));
+    setPlans(withDone);
+  }, [basePlans]);
+
+  useEffect(() => {
+    localStorage.setItem("plannerPlans", JSON.stringify(plans));
+  }, [plans]);
 
   const toggleDone = (id: number) => {
-    setCompletedPlans((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+    setPlans((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, done: !p.done } : p))
+    );
   };
 
   return (
@@ -44,18 +61,14 @@ const Planner = () => {
               onKeyDown={(e) => handleKeyDown(e)}
               placeholder="Escreva sua anotação..."
             />
-            <Button text="Adicionar" variant="secondary" onClick={addPlan} />
+            <Button text="Adicionar" variant="secondary" onClick={addNote} />
           </div>
 
           <div className="planner__notes">
             {plans.length === 0 && <p>Nenhuma anotação ainda 💭</p>}
 
             {plans.map((plan) => (
-              <div
-                key={plan.id}
-                className={`planner__note ${completedPlans[plan.id] ? "planner__note--done" : ""
-                  }`}
-              >
+              <div key={plan.id} className="planner__note">
                 {editingId === plan.id ? (
                   <>
                     <InputField
@@ -80,19 +93,18 @@ const Planner = () => {
                     </div>
                   </>
                 ) : (
-                  <>
-                    <p>{plan.text}</p>
+                  <label
+                    htmlFor={`plan-${plan.id}`}
+                    className={`planner__label ${plan.done ? "planner__note--done" : ""}`}
+                  >
+                    <input
+                      type="checkbox"
+                      id={`plan-${plan.id}`}
+                      checked={plan.done}
+                      onChange={() => toggleDone(plan.id)}
+                    />
+                    <span>{plan.text}</span>
                     <div>
-                      <Button
-                        text={completedPlans[plan.id] ? "↩️" : "✅"}
-                        variant="icon"
-                        ariaLabel={
-                          completedPlans[plan.id]
-                            ? "Desmarcar como concluída"
-                            : "Marcar como concluída"
-                        }
-                        onClick={() => toggleDone(plan.id)}
-                      />
                       <Button
                         text="✏️"
                         variant="icon"
@@ -103,10 +115,11 @@ const Planner = () => {
                         text="✖️"
                         variant="icon"
                         ariaLabel="Excluir anotação"
-                        onClick={() => removePlan(plan.id)}
+                        onClick={() => removeNote(plan.id)}
                       />
                     </div>
-                  </>
+                  </label>
+
                 )}
               </div>
             ))}
@@ -116,6 +129,6 @@ const Planner = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default Planner;
