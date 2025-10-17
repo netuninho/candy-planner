@@ -15,7 +15,7 @@
   }
 
   p {
-    max-width: 90vw;
+    max-width: 89vw;
     text-align: center;
     text-wrap: balance;
   }
@@ -24,6 +24,10 @@
     list-style: none;
     padding: 0;
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     li {
       background: $candy-floss;
@@ -31,6 +35,7 @@
       border-radius: 12px;
       margin-bottom: 0.8rem;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      max-width: 60vw;
     }
   }
 
