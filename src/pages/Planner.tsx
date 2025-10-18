@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import InputField from "../components/InputField";
 import { useNotesManager } from "../hooks/useNotesManager";
 import "../assets/styles/pages/Planner.scss";
+import Checkbox from "../components/Checkbox";
 
 interface Plan {
   id: number;
@@ -97,13 +98,12 @@ const Planner = () => {
                     htmlFor={`plan-${plan.id}`}
                     className={`planner__label ${plan.done ? "planner__note--done" : ""}`}
                   >
-                    <input
-                      type="checkbox"
+                    <Checkbox
                       id={`plan-${plan.id}`}
                       checked={plan.done}
                       onChange={() => toggleDone(plan.id)}
                     />
-                    <span>{plan.text}</span>
+                    <span className="planner__label--text">{plan.text}</span>
                     <div>
                       <Button
                         text="✏️"

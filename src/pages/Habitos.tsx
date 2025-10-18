@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import InputField from "../components/InputField";
 import "../assets/styles/pages/Habitos.scss";
 import { useNotesManager } from "../hooks/useNotesManager";
+import Checkbox from "../components/Checkbox";
 
 const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
@@ -122,8 +123,7 @@ const Habitos = () => {
 
                   {weekDays.map((day) => (
                     <td key={day}>
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={habit.days[day]}
                         onChange={() => toggleDay(habit.id, day)}
                         aria-label={`${habit.text} - ${day}`}

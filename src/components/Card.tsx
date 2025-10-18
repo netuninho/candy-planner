@@ -1,5 +1,5 @@
-import React, { type ReactNode } from 'react'
-import '../assets/styles/components/Card.scss';
+import { type ReactNode } from "react";
+import "../assets/styles/components/Card.scss";
 
 interface CardProps {
   title: string;
@@ -7,15 +7,11 @@ interface CardProps {
   children?: ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({ title, color, children }) => {
+export default function Card({ title, color, children }: CardProps) {
   return (
     <article className="card" style={{ backgroundColor: color }}>
       <h2 className="card__title">{title}</h2>
-      <div className="card__content">
-        {children}
-      </div>
+      <div className="card__content">{children}</div>
     </article>
-  )
+  );
 }
-
-export default Card

@@ -1,5 +1,6 @@
 import { useNotesManager } from "../hooks/useNotesManager";
 import { useEffect, useState } from "react";
+import Checkbox from "./Checkbox";
 
 interface Task {
   id: number;
@@ -26,10 +27,9 @@ export default function TaskList() {
       {tasks.map((task) => (
         <li
           key={task.id}
-          className={task.done ? "planner__note--done" : ""}
+          className={task.done ? "planner__note--done" : "planner__note--unchecked"}
         >
-          <input
-            type="checkbox"
+          <Checkbox
             id={`task-${task.id}`}
             checked={!!task.done}
             readOnly

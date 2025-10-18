@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Checkbox from "./Checkbox";
 
 interface Habit {
   id: number;
@@ -48,9 +49,8 @@ function HabitList() {
   return (
     <ul className="habits__card">
       {habits.map((habit) => (
-        <li key={habit.id}>
-          <input
-            type="checkbox"
+        <li key={habit.id} className="habits__list">
+          <Checkbox
             id={`habit-${habit.id}`}
             checked={habit.done}
             readOnly
