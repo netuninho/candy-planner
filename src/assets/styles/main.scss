@@ -6,6 +6,10 @@
   font-family: $font-poppins;
   padding: 3rem;
   background: linear-gradient(135deg, $bubble-gum , $candy-floss);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .--underline {

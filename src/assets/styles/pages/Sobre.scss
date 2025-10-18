@@ -4,14 +4,17 @@
   background: linear-gradient(135deg, $bubble-gum , $candy-floss);
   padding: 2rem 1rem;
   color: $chocolate;
-  line-height: 1.6;
 
   h1,
   h2 {
-    font-size: 1.8rem;
+    font-size: $font-size-xl;
     margin: 2rem 0;
     text-align: center;
     font-weight: 600;
+
+    @include max-mobile {
+      font-size: $font-size-lg;
+    }
   }
 
   p {
@@ -21,8 +24,6 @@
   }
 
   ul {
-    list-style: none;
-    padding: 0;
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;

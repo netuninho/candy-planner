@@ -25,9 +25,13 @@
 
   &__title {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: $font-size-xl;
     margin-bottom: 1.5rem;
     color: $chocolate;
+
+    @include max-mobile {
+      font-size: $font-size-lg;
+    }
   }
 
   &__input {

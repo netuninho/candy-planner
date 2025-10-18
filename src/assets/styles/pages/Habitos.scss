@@ -1,4 +1,5 @@
 @use '../base/variables' as *;
+@use '../base/responsive' as *;
 
 .habits {
   display: flex;
@@ -15,10 +16,14 @@
   }
 
   &__title {
-    font-size: 3rem;
+    font-size: $font-size-xl;
     color: $chocolate;
     text-align: center;
     font-weight: 700;
+
+    @include max-mobile {
+      font-size: $font-size-lg;
+    }
   }
 
   &__new {
@@ -65,9 +70,10 @@
     gap: 1rem;
     color: $chocolate;
     margin: 3rem 0;
+    max-width: 300px;
 
     &-bar {
-      width: 20%;
+      width: 100%;
       height: 20px;
       background-color: $bubble-gum;
       border-radius: 10px;
@@ -86,11 +92,11 @@
     }
 
     h2 {
-      font-size: 1.5rem;
+      font-size: $font-size-md;
     }
 
     &-text {
-      font-size: .8rem;
+      font-size: $font-size-sm;
     }
   }
 }

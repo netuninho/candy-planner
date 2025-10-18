@@ -16,7 +16,7 @@ const Sobre = () => {
         </section>
 
         <section className="sobre__how">
-          <h2>✨ Como funciona</h2>
+          <h2>Como funciona ✨</h2>
           <ul>
             <li>
               <strong>📝 Planner:</strong> um espaço livre pra você
