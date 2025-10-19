@@ -117,12 +117,12 @@ const Habitos = () => {
                         autoFocus
                       />
                     ) : (
-                      <span>{habit.text}</span>
+                      <span datatype="title">{habit.text}</span>
                     )}
                   </td>
 
                   {weekDays.map((day) => (
-                    <td key={day}>
+                    <td key={day} data-label={day}>
                       <Checkbox
                         checked={habit.days[day]}
                         onChange={() => toggleDay(habit.id, day)}
@@ -131,7 +131,7 @@ const Habitos = () => {
                     </td>
                   ))}
 
-                  <td>
+                  <td datatype="buttons">
                     {editingId === habit.id ? (
                       <>
                         <Button
