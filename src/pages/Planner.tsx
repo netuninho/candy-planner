@@ -80,16 +80,10 @@ const Planner = () => {
                     />
                     <div>
                       <Button
-                        text="💾"
+                        icon="save"
                         variant="icon"
                         ariaLabel="Salvar anotação"
                         onClick={() => saveEdit()}
-                      />
-                      <Button
-                        text="✖️"
-                        variant="icon"
-                        ariaLabel="Cancelar edição"
-                        onClick={() => setEditedText("")}
                       />
                     </div>
                   </>
@@ -106,13 +100,13 @@ const Planner = () => {
                     <span className="planner__label--text">{plan.text}</span>
                     <div>
                       <Button
-                        text="✏️"
+                        icon="edit"
                         variant="icon"
                         ariaLabel="Editar anotação"
                         onClick={() => startEditing(plan.id, plan.text)}
                       />
                       <Button
-                        text="✖️"
+                        icon="delete"
                         variant="icon"
                         ariaLabel="Excluir anotação"
                         onClick={() => removeNote(plan.id)}

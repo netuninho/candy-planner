@@ -135,28 +135,22 @@ const Habitos = () => {
                     {editingId === habit.id ? (
                       <>
                         <Button
-                          text="💾"
+                          icon="save"
                           onClick={() => saveEdit()}
                           ariaLabel={`Salvar edição de ${habit.text}`}
-                          variant="icon"
-                        />
-                        <Button
-                          text="✖️"
-                          onClick={() => setEditedText("")}
-                          ariaLabel={`Cancelar edição de ${habit.text}`}
                           variant="icon"
                         />
                       </>
                     ) : (
                       <>
                         <Button
-                          text="✏️"
+                          icon="edit"
                           onClick={() => startEditing(habit.id, habit.text)}
                           ariaLabel={`Editar hábito ${habit.text}`}
                           variant="icon"
                         />
                         <Button
-                          text="✖️"
+                          icon="delete"
                           onClick={() => removeNote(habit.id)}
                           ariaLabel={`Remover hábito ${habit.text}`}
                           variant="icon"
